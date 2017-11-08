@@ -1,0 +1,7 @@
+C:\Users\ARTUR\source\repos\DZ1\DZ1\bin\Debug\DZ1.exe.config
+C:\Users\ARTUR\source\repos\DZ1\DZ1\bin\Debug\DZ1.exe
+C:\Users\ARTUR\source\repos\DZ1\DZ1\bin\Debug\DZ1.pdb
+C:\Users\ARTUR\source\repos\DZ1\DZ1\obj\Debug\DZ1.csprojResolveAssemblyReference.cache
+C:\Users\ARTUR\source\repos\DZ1\DZ1\obj\Debug\DZ1.csproj.CoreCompileInputs.cache
+C:\Users\ARTUR\source\repos\DZ1\DZ1\obj\Debug\DZ1.exe
+C:\Users\ARTUR\source\repos\DZ1\DZ1\obj\Debug\DZ1.pdb
