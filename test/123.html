@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Тестування API</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link href="https://fonts.googleapis.com/css?family=Lato:400,700,900" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Titillium+Web:400,700,900" rel="stylesheet">
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+ 
+  <style>
+    /* Стили для затемнения фона */
+    .popup-overlay {
+      display: none;
+      position: fixed;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(70, 130, 180, 0.5);
+      z-index: 100;
+    }
+ 
+    /* Основные стили для всплывающего окна */
+    .popWindow{
+      display: none;
+      background-color: #161613;
+      color: #fff;
+      width: 90%;
+      max-width: 720px;
+      padding: 40px 30px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-left: -360px;
+      margin-top: -185px;
+      text-align: center;
+      box-shadow: 0 0 30px rgba(18, 17, 12, 0.5);
+    }
+	
+	 .popWindow2{
+      display: none;
+      background-color: #161613;
+      color: #fff;
+      width: 70%;
+      max-width: 500px;
+      padding: 40px 30px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-left: -360px;
+      margin-top: 20%;
+      text-align: left;
+      box-shadow: 0 0 30px rgba(18, 17, 12, 0.5);
+    }
+	
+		
+    /* Стили для адаптивности всплывающего окна */
+    @media only screen and (max-width : 800px) {
+      .popWindow {
+        margin-left: -45%;
+      }
+    }
+    /* Кнопка закрыть всплывающее окно */
+    .close-btn {
+      position: absolute;
+      top: 0;
+      right: 0;
+      font-size: 40px;
+      line-height: 20px;
+      cursor: pointer;
+      color: #999;
+      padding: 10px;
+    }
+    /* Просто текст */
+    .test_window .subcsribe-text {
+      font-size: 18px;
+      text-align: center;
+      text-transform: uppercase;
+      color: #fff;
+      margin: 0 0 40px;
+      position: relative;
+      padding: 0 50px;
+      z-index: 10;
+    }
+    /* Текст */
+    .test_window .req-fields {
+      color: #676767;
+      text-align: left;
+    }
+    /* Стили формы */
+    .test-form {
+      width: 100%;
+      max-width: 300px;
+      margin: 0 auto;
+    }
+    .test-form div {
+      position: relative;
+    }
+    .test-form input {
+      border: 1px solid #3d3d3d;
+      width: 100%;
+      font-family: "Lato", sans-serif;
+      font-size: 16px;
+      line-height: 32px;
+      padding: 5px 20px;
+      margin-bottom: 20px;
+      outline: none;
+      background: #2e2e2b;
+      color: #fff;
+      border-radius: 4px;
+    }
+    .btn {
+      color: #161613;
+      background-color: #ffba00;
+      padding: 10px 50px;
+      text-align: center;
+      font-size: 13px;
+      border: 1px solid #ffba00;
+      box-shadow: none;
+      display: inline-block;
+      text-transform: uppercase;
+      text-decoration: none;
+      display: inline-block;
+      -webkit-transition: 0.4s;
+      transition: 0.4s;
+    }
+    .btn:hover, .btn:focus {
+      background-color: #ffba00;
+      color: #fff;
+      text-decoration: none;
+    }
+    .test-form .btn {
+      font-size: 24px;
+      line-height: 54px;
+      border: none;
+      width: 100%;
+      padding: 10px;
+      font-weight: 700;
+      text-align: center;
+      outline: none;
+      border-radius: 4px;
+    }
+    .test-form .btn:hover {
+      background-color: #e6a700;
+    }
+    .test-form .btn i {
+      font-size: 28px;
+      margin-right: 7px;
+    }
+    .test-form label {
+      color: #fff;
+      position: absolute;
+      top: 12px;
+      left: 20px;
+      -webkit-transition: 0.28s;
+      transition: 0.28s;
+    }
+    .test-form label span {
+      color: #ffba00;
+    }
+    .test-form input:focus + label {
+      left: -62px;
+      font-size: 12px;
+    }
+    .test-form input:invalid {
+      box-shadow: none;
+    }
+    .test-form input:valid {
+      border: 1px solid #161613;
+    }
+    .test-form input:valid + label {
+      left: -62px;
+      font-size: 12px;
+    }
+    .test-form input:invalid:not(:focus):not(:placeholder-shown) {
+      border: 1px solid #d3362a;
+    }
+    .test-form input:invalid:not(:focus):not(:placeholder-shown) + label {
+      left: -62px;
+      font-size: 12px;
+    }
+    @media only screen and (max-width : 480px) {
+      .test_window{
+        top: 5%;
+        margin-top: 0;
+      }
+      .test_window .subcsribe-text{
+        padding: 0;
+      }
+      .test-form input:focus + label{
+        left: 20px;
+        top: -18px;
+      }
+      .test-form input:valid + label{
+        left: 20px;
+        top: -18px;
+      }
+      .test-form input:invalid:not(:focus):not(:placeholder-shown) + label{
+        left: 20px;
+        top: -18px;
+      }
+    }
+ 
+    /* Стили для текста внутри благодарственного окна после успешной отправки */
+    .thank_you_window .thank_you_title {
+      font-family: "Titillium Web", sans-serif;
+      color: #fff;
+      font-size: 32px;
+      line-height: 50px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .thank_you_window .thank_you_body {
+      font-family: "Titillium Web", sans-serif;
+      color: #fff;
+      font-size: 24px;
+      font-weight: 400;
+    }
+	
+	body {
+   background-color: white;
+   margin: 40px;
+   }
+	pre {
+	   background-color: mintcream;
+	   border: 1px solid silver;
+	   padding: 10px 20px;
+	   }
+	.json-key {
+	   color: brown;
+	   }
+	.json-value {
+	   color: navy;
+	   }
+	.json-string {
+	   color: olive;
+	   }
+
+  </style>
+</head>
+<body>
+ 
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        
+		<h1>Test INTITA API Client</h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maxime repellat asperiores natus unde quos consequuntur aliquid temporibus doloremque nihil nulla quidem, expedita hic nobis ipsam quia fugiat. Sunt, maxime, fugit!</p>
+		
+		<button type="button" class="starttest" onClick = ""><i class="fa fa-check" aria-hidden="true"></i> Try it</button>
+		
+		<div class="popup-overlay">
+ 
+          <div class="popWindow test_window">
+            <p class="subcsribe-text">Тестування API</p>
+            <form name="form1" class="test-form" autocomplete="off">
+              <div>
+		        <input type="text" id="api-test" name="apikey" placeholder=" " required>
+                <label for="api-test">API key <span>*</span></label>
+				
+              </div>
+              <div>
+                <input type="text" id="param-test" name="param" placeholder=" " required>
+                <label for="param-test">Param <span>*</span></label>
+              </div>
+              <div class="aligncenter">
+                <button type="button" class="btn" onClick = "$popWindow.fadeOut(), $popOverlay.fadeOut(), $popThankYouWindow.fadeIn(), someFunc()"><i class="fa fa-check" aria-hidden="true"></i> Спробувати</button>
+              </div>
+              <div class="req-fields"><sup>*</sup> обов'язкові поля</div>
+            </form>
+            <div class="close-btn">&times;</div>
+          </div>
+ 
+          
+ 
+        </div>
+		
+		<div class="popWindow2 thank_you_window">
+		  <p class="thank_you_title">Test API</p>
+            <pre><code id=account></code></pre>
+            <div class="close-btn">&times;</div>
+          </div>
+ 
+      </div>
+    </div>
+  </div>
+ 
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="https://intita.com/api/dist/intita-api-client.min.js"></script>
+  <script>
+	
+	
+
+  
+	function someFunc(){
+
+		var API_KEY = document.getElementById("api-test").value;
+		var id = document.getElementById("param-test").value;
+						
+		var client = new INTITAClient({
+			key: API_KEY,
+		});
+		
+		client.getModuleInfo(id, function(error, data) {
+			for(i in data){
+				if(typeof data[i] === 'string' && data[i].length>30){
+				data[i] = data[i].substr(0, 30)+"...";
+				}
+			}
+			$('#account').html(jsonPrettyPrint.toHtml(data));
+		});
+	}
+
+
+	
+
+  
+ 
+  
+  
+    var $popOverlay = $(".popup-overlay");
+    var $popWindow = $(".popWindow");
+    var $testWindow = $(".test_window");
+    var $popThankYouWindow = $(".thank_you_window");
+    var $popClose = $(".close-btn");
+	var $testStart = $(".starttest");
+	var $popWindow2 = $(".popWindow2");
+ 
+ 	$(function() {
+      $testStart.on("click", function() {
+	  
+       $popOverlay.fadeIn();
+        $popWindow.fadeIn();
+		
+		
+      });
+    });
+	
+ 
+    $(function() {
+      $popClose.on("click", function() {
+        $popOverlay.fadeOut();
+        $popWindow.fadeOut();
+        $popWindow2.fadeOut();
+		
+      });
+    });
+	
+
+	var jsonPrettyPrint = {
+	   replacer: function(match, pIndent, pKey, pVal, pEnd) {
+		  var key = '<span class=json-key>';
+		  var val = '<span class=json-value>';
+		  var str = '<span class=json-string>';
+		  var r = pIndent || '';
+		  if (pKey)
+			 r = r + key + pKey.replace(/[": ]/g, '') + '</span>: ';
+		  if (pVal)
+			 r = r + (pVal[0] == '"' ? str : val) + pVal + '</span>';
+		  return r + (pEnd || '');
+		  },
+	   toHtml: function(obj) {
+		  var jsonLine =
+			 /^( *)("[\w]+": )?("[^"]*"|[\w.+-]*)?([,[{])?$/mg;
+		  return JSON.stringify(obj, null, 3)
+			 .replace(/&/g, '&amp;').replace(/\\"/g, '&quot;')
+			 .replace(/</g, '&lt;').replace(/>/g, '&gt;')
+			 .replace(jsonLine, jsonPrettyPrint.replacer);
+		  }
+	   };
+
+	
+	
+  </script>
+ 
+</body>
+
+</html>
